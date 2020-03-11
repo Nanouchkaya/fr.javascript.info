@@ -1,62 +1,62 @@
-# Bezier curve
+# Courbes de Bézier
 
-Bezier curves are used in computer graphics to draw shapes, for CSS animation and in many other places.
 
-They are a very simple thing, worth to study once and then feel comfortable in the world of vector graphics and advanced animations.
+Les courbes de Bézier sont utilisées en infographie pour dessiner des formes, pour les animations CSS et dans de nombreuses autres situations.
 
-## Control points
+Ce sont des notions simples qui valent la peine d'être étudiées une fois, afin de se sentir à l'aise dans le monde des graphiques vectoriels et des animations avancées.
 
-A [bezier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve) is defined by control points.
+## Points de contrôle
 
-There may be 2, 3, 4 or more.
+Une [courbe de bézier](https://fr.wikipedia.org/wiki/Courbe_de_B%C3%A9zier) est défini par des points de contrôle.
 
-For instance, two points curve:
+Il peut y en avoir 2, 3, 4 ou plus.
+
+Par exemple, une courbe de deux points :
 
 ![](bezier2.svg)
 
-Three points curve:
+Courbe de trois points :
 
 ![](bezier3.svg)
 
-Four points curve:
+Courbe de quatre points :
 
 ![](bezier4.svg)
 
-If you look closely at these curves, you can immediately notice:
+Si vous regardez avec attention ces courbes, vous remarquerez immédiatement que :
 
-1. **Points are not always on curve.** That's perfectly normal, later we'll see how the curve is built.
-2. **The curve order equals the number of points minus one**.
-For two points we have a linear curve (that's a straight line), for three points -- quadratic curve (parabolic), for four points -- cubic curve.
-3. **A curve is always inside the [convex hull](https://en.wikipedia.org/wiki/Convex_hull) of control points:**
+1. **les points ne sont pas toujours sur la courbe.** C'est tout à fait normal, nous verrons plus tard comment une courbe est construite.
+2. **l'ordre de la courbe est égale au nombre de points moins un.** Avec deux points nous obtenons une courbe linéraire (une ligne droite), avec trois points -- courbe quadratique (parabolique), avec quatre points -- courbe cubique.
+3. **une courbe est toujours dans l'[enveloppe convexe](https://fr.wikipedia.org/wiki/Enveloppe_convexe) des points de contrôle :**
 
     ![](bezier4-e.svg) ![](bezier3-e.svg)
 
-Because of that last property, in computer graphics it's possible to optimize intersection tests. If convex hulls do not intersect, then curves do not either. So checking for the convex hulls intersection first can give a very fast "no intersection" result. Checking the intersection or convex hulls is much easier, because they are rectangles, triangles and so on (see the picture above), much simpler figures than the curve.
 
-**The main value of Bezier curves for drawing -- by moving the points the curve is changing *in intuitively obvious way*.**
+Grâce à cette dernière caractéristique, il est possible en infographie d'optimiser les tests d'intersection. Si les enveloppes convexes ne s'entrecoupent pas, alors les courbes non plus. Ainsi, vérifier d'abord l'intersection des enveloppes convexes peut donner un résultat très rapide de "non intersection". Vérifier l'intersection ou les enveloppes convexes est beaucoup plus facile car ce sont des rectangles, des triangles etc (voir l'image ci-dessus), donc des figures bien plus simples qu'une courbe.
 
-Try to move control points using a mouse in the example below:
+**Le principal intérêt des courbes de Bézier pour le dessin est qu'en déplaçant les points, la courbe change *de manière intuitive*.**
+
+Essayez de déplacer les points de contrôle en utilisant la souris dans l'example ci-dessous :
 
 [iframe src="demo.svg?nocpath=1&p=0,0,0.5,0,0.5,1,1,1" height=370]
 
-**As you can notice, the curve stretches along the tangential lines 1 -> 2 and 3 -> 4.**
+**Comme vous pouvez le constatez, la courbe s'étire le long des lignes tangentes 1 -> 2 et 3 -> 4.**
 
-After some practice it becomes obvious how to place points to get the needed curve. And by connecting several curves we can get practically anything.
+Après un peu de pratique, le placement des points pour obtenir la courbe voulue devient évident. Et en combinant plusieurs courbes, on peut réaliser pratiquement tout ce qu'on veut.
 
-Here are some examples:
+Voici quelques exemples :
 
 ![](bezier-car.svg) ![](bezier-letter.svg) ![](bezier-vase.svg)
 
-## De Casteljau's algorithm
+## L'algorithme de Casteljau
 
-There's a mathematical formula for Bezier curves, but let's cover it a bit later, because
-[De Casteljau's algorithm](https://en.wikipedia.org/wiki/De_Casteljau%27s_algorithm) it is identical to the mathematical definition and visually shows how it is constructed.
+Il y a une formule mathématique pour les courbes de Bézier que nous verrons un peu plus tard car [l'algorithme de Casteljau](https://fr.wikipedia.org/wiki/Algorithme_de_Casteljau) est identique à sa définition mathématique et montre visuellement comment elle est construite.
 
-First let's see the 3-points example.
+D'abord, voyons l'exemple avec trois points.
 
-Here's the demo, and the explanation follow.
+Ci-dessous la démo suivi par son explication.
 
-Control points (1,2 and 3) can be moved by the mouse. Press the "play" button to run it.
+Les points de contrôle (1,2 et 3) peuvent être déplacés avec la souris. Cliquez sur le bouton vert "play" pour lancer l'animation.
 
 [iframe src="demo.svg?p=0,0,0.5,1,1,0&animate=1" height=370]
 
